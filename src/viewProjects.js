@@ -19,7 +19,6 @@ export function displayProjects() {
       <p>Project Description: ${project.description}</p>
     `;
 
-    // Create buttons
     // Add Todo button
     const addTodoButton = document.createElement('button');
     addTodoButton.textContent = 'Add Todo';
