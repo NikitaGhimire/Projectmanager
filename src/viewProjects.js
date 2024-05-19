@@ -33,6 +33,7 @@ export function displayProjects() {
       // Load and display the todo form
       const todoForm = loadTodoForm(project);
       projectElement.appendChild(todoForm);
+      detailsSection.innerHTML = '';
       todoForm.style.display = 'block';
     });
 
@@ -57,6 +58,7 @@ export function displayProjects() {
     // Event listener for View Project Details button
     detailsButton.addEventListener('click', () => {
     // Hide the add todo form if it's visible
+    todoForm.innerHTML = '';
     displayProjectDetails(projectElement, project); // Call displayProjectDetails function
   });
   });
@@ -90,12 +92,31 @@ function displayProjectDetails(projectElement, project) {
     const todoList = document.createElement('ul');
     project.todos.forEach(todo => {
       const todoItem = document.createElement('li');
-      todoItem.textContent = `${todo.title} - Due Date: ${todo.dueDate}`;
-      todoList.appendChild(todoItem);
+      todoItem.textContent = `${todo.title} --- Due Date: ${todo.dueDate} --- Priority: ${todo.priority}   `;
+
+      // Create the delete button element
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete this item'; // Set the button text
+    deleteButton.classList.add('delete-button'); // Add a class for styling (optional)
+
+    // Add an event listener to handle the deletion
+    deleteButton.addEventListener('click', function() {
+      // Remove the todo item from the DOM
+      todoItem.remove();
+      // Remove the item from the project.todos array
+      project.todos.splice(index, 1);
+      // Optionally, save the updated project data to persistent storage here
     });
-    detailsSection.appendChild(todoList);
+
+    // Append the delete button to the to-do item
+    todoItem.appendChild(deleteButton);
+
+    // Append the to-do item to the list
+    todoList.appendChild(todoItem);
+  });
+  detailsSection.appendChild(todoList);
   } else {
-    detailsSection.innerHTML += '<p>No todo items found for this project.</p>';
+  detailsSection.innerHTML += '<p>No todo items found for this project.</p>';
   }
 }
 
